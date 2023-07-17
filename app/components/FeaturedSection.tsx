@@ -5,7 +5,7 @@ import {usePrefixPathWithLocale} from '~/lib/utils';
 import type {FeaturedData} from '~/routes/($locale).featured-products';
 
 import {FeaturedCollections} from './FeaturedCollections';
-import {ProductSwimlane} from './ProductSwimlane';
+import {ProductGrid} from './ProductGrid';
 
 export function FeaturedSection() {
   const {load, data} = useFetcher<FeaturedData>();
@@ -27,7 +27,7 @@ export function FeaturedSection() {
           collections={featuredCollections}
         />
       )}
-      <ProductSwimlane products={featuredProducts} />
+      <ProductGrid products={featuredProducts} />
     </>
   );
 }

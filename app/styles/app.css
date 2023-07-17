@@ -4,11 +4,11 @@
 
 /* Tokens */
 :root {
-  --color-primary: 20 20 20; /* Text, buttons, etc. */
-  --color-contrast: 250 250 249; /* Backgrounds, borders, etc. */
+  --color-primary: 21 21 21; /* Text, buttons, etc. */
+  --color-contrast: 255 255 255; /* Backgrounds, borders, etc. */
   --color-accent: 191 72 0; /* Labels like "On sale" */
   --font-size-fine: 0.75rem; /* text-xs */
-  --font-size-copy: 1rem; /* text-base */
+  --font-size-copy: 0.85rem; /* text-base */
   --font-size-lead: 1.125rem; /* text-lg */
   --font-size-heading: 2rem; /* text-2xl */
   --font-size-display: 3rem; /* text-4xl */
@@ -22,7 +22,7 @@
     --height-nav: 4rem;
   }
   @media (min-width: 48em) {
-    --height-nav: 6rem;
+    --height-nav: 4rem;
     --font-size-heading: 2.25rem; /* text-4xl */
     --font-size-display: 3.75rem; /* text-6xl */
   }
@@ -31,14 +31,6 @@
   }
   @supports (height: 100dvh) {
     --screen-height-dynamic: 100dvh;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: 250 250 250;
-    --color-contrast: 32 33 36;
-    --color-accent: 235 86 40;
   }
 }
 

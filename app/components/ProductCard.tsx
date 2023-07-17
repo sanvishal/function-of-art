@@ -11,14 +11,12 @@ import {getProductPlaceholder} from '~/lib/placeholders';
 export function ProductCard({
   product,
   label,
-  className,
   loading,
   onClick,
   quickAdd,
 }: {
   product: ProductCardFragment;
   label?: string;
-  className?: string;
   loading?: HTMLImageElement['loading'];
   onClick?: () => void;
   quickAdd?: boolean;
@@ -60,12 +58,12 @@ export function ProductCard({
         to={`/products/${product.handle}`}
         prefetch="intent"
       >
-        <div className={clsx('grid gap-4', className)}>
+        <div>
           <div className="card-image aspect-[4/5] bg-primary/5">
             {image && (
               <Image
                 className="object-cover w-full fadeIn"
-                sizes="(min-width: 64em) 25vw, (min-width: 48em) 30vw, 45vw"
+                sizes="(min-width: 64em) 20vw, (min-width: 48em) 25vw, 40vw"
                 aspectRatio="4/5"
                 data={image}
                 alt={image.altText || `Picture of ${product.title}`}

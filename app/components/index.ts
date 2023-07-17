@@ -4,7 +4,7 @@ export {Heading, Section, Text, PageHeader} from './Text';
 export {Input} from './Input';
 export {ProductGallery} from './ProductGallery';
 export {ProductCard} from './ProductCard';
-export {ProductSwimlane} from './ProductSwimlane';
+export {ProductGrid as ProductSwimlane} from './ProductGrid';
 export {Skeleton} from './Skeleton';
 export {Button} from './Button';
 export {CountrySelector} from './CountrySelector';

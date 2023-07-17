@@ -1,4 +1,4 @@
-import {type ReactNode, useRef, Suspense, useMemo} from 'react';
+import {type ReactNode, useRef, Suspense, useMemo, useEffect} from 'react';
 import {Disclosure, Listbox} from '@headlessui/react';
 import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
 import {
@@ -102,6 +102,10 @@ export default function Product() {
   const {product, shop, recommended} = useLoaderData<typeof loader>();
   const {media, title, vendor, descriptionHtml} = product;
   const {shippingPolicy, refundPolicy} = shop;
+
+  useEffect(() => {
+    // document.body.style.setProperty('--color-contrast', '0 0 0');
+  }, []);
 
   return (
     <>
@@ -464,7 +468,7 @@ function ProductDetail({
 
           <Disclosure.Panel className={'pb-4 pt-2 grid gap-2'}>
             <div
-              className="prose dark:prose-invert"
+              className="prose"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (

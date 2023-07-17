@@ -45,12 +45,12 @@ export function Layout({children, layout}: LayoutProps) {
             Skip to content
           </a>
         </div>
-        {headerMenu && <Header title={layout.shop.name} menu={headerMenu} />}
+        {/* {headerMenu && <Header title={layout.shop.name} menu={headerMenu} />} */}
         <main role="main" id="mainContent" className="flex-grow">
           {children}
         </main>
       </div>
-      {footerMenu && <Footer menu={footerMenu} />}
+      {/* {footerMenu && <Footer menu={footerMenu} />} */}
     </>
   );
 }
@@ -184,7 +184,7 @@ function MobileHeader({
       role="banner"
       className={`${
         isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
+          ? 'bg-primary/80 text-contrast shadow-darkHeader'
           : 'bg-contrast/80 text-primary'
       } flex lg:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 md:px-8`}
     >
@@ -208,9 +208,7 @@ function MobileHeader({
           </button>
           <Input
             className={
-              isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
+              isHome ? 'focus:border-contrast/20' : 'focus:border-primary/20'
             }
             type="search"
             variant="minisearch"
@@ -251,18 +249,10 @@ function DesktopHeader({
   menu?: EnhancedMenu;
   title: string;
 }) {
-  const params = useParams();
-  const {y} = useWindowScroll();
   return (
     <header
       role="banner"
-      className={`${
-        isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-          : 'bg-contrast/80 text-primary'
-      } ${
-        !isHome && y > 50 && ' shadow-lightHeader'
-      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
+      className={`bg-contrast/80 shadow-lightHeader hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-4`}
     >
       <div className="flex gap-12">
         <Link className="font-bold" to="/" prefetch="intent">
@@ -286,30 +276,6 @@ function DesktopHeader({
         </nav>
       </div>
       <div className="flex items-center gap-1">
-        <Form
-          method="get"
-          action={params.locale ? `/${params.locale}/search` : '/search'}
-          className="flex items-center gap-2"
-        >
-          <Input
-            className={
-              isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
-            }
-            type="search"
-            variant="minisearch"
-            placeholder="Search"
-            name="q"
-          />
-          <button
-            type="submit"
-            className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
-          >
-            <IconSearch />
-          </button>
-        </Form>
-        <AccountLink className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5" />
         <CartCount isHome={isHome} openCart={openCart} />
       </div>
     </header>
@@ -371,9 +337,7 @@ function Badge({
         <IconBag />
         <div
           className={`${
-            dark
-              ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
-              : 'text-contrast bg-primary'
+            dark ? 'text-contrast bg-primary' : 'text-contrast bg-primary'
           } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
         >
           <span>{count || 0}</span>
@@ -414,7 +378,7 @@ function Footer({menu}: {menu?: EnhancedMenu}) {
       as="footer"
       role="contentinfo"
       className={`grid min-h-[25rem] items-start grid-flow-row w-full gap-6 py-8 px-6 md:px-8 lg:px-12 md:gap-8 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-${itemsCount}
-        bg-primary dark:bg-contrast dark:text-primary text-contrast overflow-hidden`}
+        bg-primary text-contrast overflow-hidden`}
     >
       <FooterMenu menu={menu} />
       <CountrySelector />
