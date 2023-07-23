@@ -148,9 +148,10 @@ export default function Product() {
   useEffect(() => {
     if (product.accentColor) {
       const fac = new FastAverageColor();
-      console.log(document.querySelector('.product-image'));
+      const container = document.getElementsByClassName('product-image')?.[0];
+      console.log(container);
       fac
-        .getColorAsync(product.media.nodes[0].previewImage?.url)
+        .getColorAsync(container.querySelector('img'))
         .then((color) => {
           changeAccentColor(color.hex);
         })
@@ -183,7 +184,7 @@ export default function Product() {
           </Button>
           <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
         </div>
-        <div className="grid items-start md:gap-6 lg:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-start md:gap-6 lg:gap-5 md:grid-cols-2 lg:grid-cols-3 product-image">
           <ProductGallery
             media={media.nodes}
             className="w-full lg:col-span-2"

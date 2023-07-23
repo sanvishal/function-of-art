@@ -33,7 +33,7 @@ export function ProductGallery({
         const style = [
           isFullWidth ? 'md:col-span-2' : 'md:col-span-1',
           'aspect-[16/9]',
-          'aspect-square snap-center card-image bg-white w-mobileGallery md:w-full',
+          'snap-center card-image bg-white w-mobileGallery md:w-full',
         ].join(' ');
 
         return (
@@ -48,7 +48,8 @@ export function ProductGallery({
                     ? '(min-width: 48em) 60vw, 90vw'
                     : '(min-width: 48em) 30vw, 90vw'
                 }
-                className="object-cover w-full h-full aspect-square fadeIn product-image"
+                className="object-cover w-full h-full aspect-square fadeIn"
+                crossOrigin="anonymous"
               />
             )}
           </div>
