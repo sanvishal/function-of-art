@@ -59,24 +59,24 @@ export function ProductCard({
         prefetch="intent"
       >
         <div>
-          <div className="card-image aspect-[4/5] bg-primary/5">
+          <div className="card-image aspect-[16/9] bg-primary/5">
             {image && (
               <Image
                 className="object-cover w-full fadeIn"
                 sizes="(min-width: 64em) 20vw, (min-width: 48em) 25vw, 40vw"
-                aspectRatio="4/5"
+                aspectRatio="16/9"
                 data={image}
                 alt={image.altText || `Picture of ${product.title}`}
                 loading={loading}
               />
             )}
-            <Text
+            {/* <Text
               as="label"
               size="fine"
               className="absolute top-0 right-0 m-4 text-right text-notice"
             >
               {cardLabel}
-            </Text>
+            </Text> */}
           </div>
           <div className="grid gap-1">
             <Text

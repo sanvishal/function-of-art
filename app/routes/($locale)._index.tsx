@@ -1,5 +1,5 @@
 import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
-import {Suspense} from 'react';
+import {Suspense, useEffect} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 
@@ -51,6 +51,11 @@ export async function loader({params, context}: LoaderArgs) {
 
 export default function Homepage() {
   const {featuredProducts} = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--color-contrast', '0 0% 100%');
+    document.documentElement.style.setProperty('--color-primary', '0 0% 10%');
+  });
 
   return (
     <>

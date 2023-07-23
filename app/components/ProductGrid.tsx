@@ -2,11 +2,14 @@ import {GoTypography} from 'react-icons/go';
 import {GoArrowRight} from 'react-icons/go';
 import {RxFrame} from 'react-icons/rx';
 import {HiOutlineSparkles} from 'react-icons/hi';
+import {useEffect} from 'react';
 
-import {ProductCard, Section} from '~/components';
+import {ProductCard, Section, useDrawer} from '~/components';
 import type {HomepageFeaturedProductsQuery} from 'storefrontapi.generated';
+import {useCartFetchers} from '~/hooks/useCartFetchers';
 
 import {Logo} from './Logo';
+import {CartCount, CartDrawer} from './Layout';
 
 const mockProducts = {
   nodes: new Array(12).fill(''),
@@ -23,6 +26,20 @@ export function ProductGrid({
   count = 12,
   ...props
 }: ProductGridProps) {
+  const {
+    isOpen: isCartOpen,
+    openDrawer: openCart,
+    closeDrawer: closeCart,
+  } = useDrawer();
+
+  const addToCartFetchers = useCartFetchers('ADD_TO_CART');
+
+  // toggle cart drawer when adding to cart
+  useEffect(() => {
+    if (isCartOpen || !addToCartFetchers.length) return;
+    openCart();
+  }, [addToCartFetchers, isCartOpen, openCart]);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 p-12 gap-6 grid-flow-row-dense">
       <div className="flex flex-col justify-between">
@@ -45,6 +62,8 @@ export function ProductGrid({
         <div className="flex items-center w-full space-x-2">
           <p className="italic text-primary/50">hand curated biweekly</p>
           <div className="flex-grow-[1] h-[1px] bg-primary/25"></div>
+          <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+          <CartCount isHome openCart={openCart} />
         </div>
       </div>
       {products.nodes.map((product) => (

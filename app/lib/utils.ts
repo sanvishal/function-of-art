@@ -2,6 +2,7 @@ import {useLocation, useMatches} from '@remix-run/react';
 import {parse as parseCookie} from 'worktop/cookie';
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
 import typographicBase from 'typographic-base';
+import chroma from 'chroma-js';
 
 import type {
   ChildMenuItemFragment,
@@ -341,3 +342,19 @@ export function getCartId(request: Request) {
   const cookies = parseCookie(request.headers.get('Cookie') || '');
   return cookies.cart ? `gid://shopify/Cart/${cookies.cart}` : undefined;
 }
+
+export const hexToHSL = (color: string) => chroma(color).hsl();
+
+export const hslToHex = (color: number[]) => chroma(color, 'hsl').hex();
+
+export const isColorTooDark = (color: string): boolean => {
+  const colorStripped = color.substring(1);
+  const rgb = parseInt(colorStripped, 16);
+  const r = (rgb >> 16) & 0xff;
+  const g = (rgb >> 8) & 0xff;
+  const b = (rgb >> 0) & 0xff;
+
+  const luminanace = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  return luminanace < 40;
+};

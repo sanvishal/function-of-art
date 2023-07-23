@@ -1,4 +1,11 @@
-import {type ReactNode, useRef, Suspense, useMemo, useEffect} from 'react';
+import {
+  type ReactNode,
+  useRef,
+  Suspense,
+  useMemo,
+  useEffect,
+  useState,
+} from 'react';
 import {Disclosure, Listbox} from '@headlessui/react';
 import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
 import {
@@ -17,6 +24,9 @@ import type {
   Product as ProductType,
   ProductConnection,
 } from '@shopify/hydrogen/storefront-api-types';
+import {FiArrowLeft} from 'react-icons/fi';
+import chroma from 'chroma-js';
+import {FastAverageColor} from 'fast-average-color';
 
 import {
   Heading,
@@ -31,12 +41,15 @@ import {
   Link,
   AddToCartButton,
   Button,
+  useDrawer,
 } from '~/components';
-import {getExcerpt} from '~/lib/utils';
+import {getExcerpt, hexToHSL, hslToHex, isColorTooDark} from '~/lib/utils';
 import {seoPayload} from '~/lib/seo.server';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import type {Storefront} from '~/lib/type';
 import {routeHeaders} from '~/data/cache';
+import {CartDrawer} from '~/components/Layout';
+import {useCartFetchers} from '~/hooks/useCartFetchers';
 
 export const headers = routeHeaders;
 
@@ -102,23 +115,83 @@ export default function Product() {
   const {product, shop, recommended} = useLoaderData<typeof loader>();
   const {media, title, vendor, descriptionHtml} = product;
   const {shippingPolicy, refundPolicy} = shop;
+  const [accentColor, setAccentColor] = useState('#ffffff');
+
+  const changeAccentColor = (hex: string) => {
+    const currentAccent = chroma(hex).hsl();
+    document.documentElement.style.setProperty(
+      '--color-contrast',
+      `${currentAccent[0]} ${currentAccent[1] * 100}% ${
+        currentAccent[2] * 100
+      }%`,
+    );
+
+    setAccentColor(hex);
+
+    const contrasts = [
+      chroma.contrast(hex, '#ffffff'),
+      chroma.contrast(hex, '#000000'),
+    ];
+    if (contrasts[1] < contrasts[0]) {
+      document.documentElement.style.setProperty(
+        '--color-primary',
+        `${0} ${0}% ${100}%`,
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        '--color-primary',
+        `${0} ${0}% ${0}%`,
+      );
+    }
+  };
 
   useEffect(() => {
-    // document.body.style.setProperty('--color-contrast', '0 0 0');
-  }, []);
+    if (product.accentColor) {
+      const fac = new FastAverageColor();
+      console.log(document.querySelector('.product-image'));
+      fac
+        .getColorAsync(product.media.nodes[0].previewImage?.url)
+        .then((color) => {
+          changeAccentColor(color.hex);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [product.id]);
+
+  const {
+    isOpen: isCartOpen,
+    openDrawer: openCart,
+    closeDrawer: closeCart,
+  } = useDrawer();
+
+  const addToCartFetchers = useCartFetchers('ADD_TO_CART');
+
+  // toggle cart drawer when adding to cart
+  useEffect(() => {
+    if (isCartOpen || !addToCartFetchers.length) return;
+    openCart();
+  }, [addToCartFetchers, isCartOpen, openCart]);
 
   return (
     <>
       <Section className="px-0 md:px-8 lg:px-12">
-        <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex justify-between md:px-0 px-6">
+          <Button to="/" variant="ghostIcon">
+            <FiArrowLeft className="w-4 h-4" />
+          </Button>
+          <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+        </div>
+        <div className="grid items-start md:gap-6 lg:gap-5 md:grid-cols-2 lg:grid-cols-3">
           <ProductGallery
             media={media.nodes}
             className="w-full lg:col-span-2"
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
+            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-5 md:max-w-sm md:px-0">
               <div className="grid gap-2">
-                <Heading as="h1" className="whitespace-normal">
+                <Heading as="h1" className={`whitespace-normal`}>
                   {title}
                 </Heading>
                 {vendor && (
@@ -270,13 +343,13 @@ export function ProductForm() {
                 </Text>
               </AddToCartButton>
             )}
-            {!isOutOfStock && (
+            {/* {!isOutOfStock && (
               <ShopPayButton
                 width="100%"
                 variantIds={[selectedVariant?.id!]}
                 storeDomain={storeDomain}
               />
-            )}
+            )} */}
           </div>
         )}
       </div>
@@ -538,6 +611,10 @@ const PRODUCT_QUERY = `#graphql
       handle
       descriptionHtml
       description
+      accentColor: metafield(namespace: "custom", key: "accent_color") {
+        value
+        type
+      }
       options {
         name
         values

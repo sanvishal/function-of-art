@@ -36,7 +36,6 @@ type LayoutProps = {
 };
 
 export function Layout({children, layout}: LayoutProps) {
-  const {headerMenu, footerMenu} = layout;
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -100,7 +99,13 @@ function Header({title, menu}: {title: string; menu?: EnhancedMenu}) {
   );
 }
 
-function CartDrawer({isOpen, onClose}: {isOpen: boolean; onClose: () => void}) {
+export function CartDrawer({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   const [root] = useMatches();
 
   return (
@@ -296,7 +301,7 @@ function AccountLink({className}: {className?: string}) {
   );
 }
 
-function CartCount({
+export function CartCount({
   isHome,
   openCart,
 }: {

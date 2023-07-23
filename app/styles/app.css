@@ -4,8 +4,8 @@
 
 /* Tokens */
 :root {
-  --color-primary: 21 21 21; /* Text, buttons, etc. */
-  --color-contrast: 255 255 255; /* Backgrounds, borders, etc. */
+  --color-primary: 0 0% 10%; /* Text, buttons, etc. */
+  --color-contrast: 0 0% 100%; /* Backgrounds, borders, etc. */
   --color-accent: 191 72 0; /* Labels like "On sale" */
   --font-size-fine: 0.75rem; /* text-xs */
   --font-size-copy: 0.85rem; /* text-base */
@@ -52,6 +52,7 @@ shop-pay-button {
 @layer base {
   * {
     font-variant-ligatures: none;
+    transition: background 0.2s ease-in-out;
   }
 
   body {

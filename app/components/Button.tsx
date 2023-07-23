@@ -15,7 +15,7 @@ export const Button = forwardRef(
     }: {
       as?: React.ElementType;
       className?: string;
-      variant?: 'primary' | 'secondary' | 'inline';
+      variant?: 'primary' | 'secondary' | 'inline' | 'ghostIcon';
       width?: 'auto' | 'full';
       [key: string]: any;
     },
@@ -30,6 +30,8 @@ export const Button = forwardRef(
       primary: `${baseButtonClasses} bg-primary text-contrast`,
       secondary: `${baseButtonClasses} border border-primary/10 bg-contrast text-primary`,
       inline: 'border-b border-primary/10 leading-none pb-1',
+      ghostIcon:
+        'leading-none p-2 rounded-md bg-primary/5 flex justify-center items-center',
     };
 
     const widths = {

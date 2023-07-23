@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(var(--color-primary) / <alpha-value>)',
-        contrast: 'rgb(var(--color-contrast) / <alpha-value>)',
+        primary: 'hsla(var(--color-primary) / <alpha-value>)',
+        contrast: 'hsla(var(--color-contrast) / <alpha-value>)',
         notice: 'rgb(var(--color-accent) / <alpha-value>)',
         shopPay: 'rgb(var(--color-shop-pay) / <alpha-value>)',
       },
